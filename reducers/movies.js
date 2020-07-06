@@ -7,7 +7,7 @@ const initialState = {
     onlyWithImg: false,
 }
 
-/* When toggle trash button or checkbox */
+/* When toggle onlyWithImg checkbox */
 export const toggleDisplayMoviesWithPoster = (onlyWithImg, query) => async (dispatch, getState) => {
     if (!onlyWithImg) {
         loadMovies()
