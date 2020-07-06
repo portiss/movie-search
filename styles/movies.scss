@@ -1,0 +1,100 @@
+.container {
+    border-bottom: 3px solid #187baf;
+    display: flex;
+    h1,
+    h3 {
+        color: #18638b;
+        font-weight: bold;
+        animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    .search-label {
+        display: block;
+        margin: 10px;
+    }
+
+    .search-control {
+        color: lightslategrey;
+        outline: none;
+        min-width: 30vw;
+        line-height: 30px;
+        padding: 2px 7px;
+        border-radius: 14px;
+        border: 1px solid antiquewhite;
+        place-content: center;
+        margin: 10px;
+    }
+    select {
+        height: 36px;
+        width: 31vw;
+        display: block;
+    }
+    .error-msg {
+        animation: glow-err 3s ease-in-out infinite alternate;
+        color: rgb(99, 7, 7);
+    }
+
+    .img {
+        height: 200px;
+        width: 200px;
+    }
+
+    .num-results::after {
+        content: "Sorted by Year of release";
+        color: lightgray;
+        position: absolute;
+        margin-top: 20px;
+        font-size: small;
+    }
+
+    .list {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .list-item {
+        display: inline-table;
+        max-height: 417px;
+        width: 330px;
+        text-align: left;
+        padding: 15px;
+        border: none;
+        border-radius: 20px;
+        margin: 10px;
+        background: #faee4a6b;
+        .title {
+            margin: 14px;
+        }
+    }
+}
+
+body {
+    background-color: rgb(253, 253, 221);
+    padding: 0;
+    margin: 3vh 10vw;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+@keyframes glow {
+    from {
+        color: rgba(8, 73, 104, 0.897);
+        text-shadow: 0 1px 2px #ffa600;
+    }
+
+    to {
+        color: rgb(102, 19, 64);
+        text-shadow: 0 0 3px #3ab9ca;
+    }
+}
+@keyframes glow-err {
+    from {
+        color: rgba(124, 18, 18, 0.897);
+        text-shadow: 0 1px 2px #ffa600;
+    }
+
+    to {
+        color: rgb(194, 55, 45);
+        text-shadow: 0 0 3px #ffdb0c;
+    }
+}

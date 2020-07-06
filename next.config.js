@@ -1,39 +1,38 @@
 
+const withCSS = require('@zeit/next-css')
+module.exports = withCSS({
+  webpack(config, options) {
+    return config
+  }
+})
 const withSass = require('@zeit/next-sass')
 
 module.exports = withSass({
-  /*cssModules: true,
+ /*  cssModules: true,
   cssLoaderOptions: {
-    importLoaders: 2,
-    includePaths: ["absolute/path/a", "absolute/path/b"]
+    importLoaders: 1,
+    localIdentName: '[local]___[hash:base64:5]',
   },
-   webpack: config => {
-    config.module.rules.forEach(rule => {
-      if (rule.test.toString().includes('.scss')) {
-        rule.rules = rule.use.map(useRule => {
-          if (typeof useRule === 'string') {
-            return { loader: useRule };
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      const antStyles = /antd\/.*?\/style\/css.*?/
+      const origExternals = [...config.externals]
+      config.externals = [
+        (context, request, callback) => {
+          if (request.match(antStyles)) return callback()
+          if (typeof origExternals[0] === 'function') {
+            origExternals[0](context, request, callback)
+          } else {
+            callback()
           }
-          if (useRule.loader === 'css-loader') {
-            return {
-              oneOf: [
-                {
-                  test: new RegExp('.global.scss$'),
-                  loader: useRule.loader,
-                  options: {},
-                },
-                {
-                  loader: useRule.loader,
-                  options: { modules: true }
-                },
-              ],
-            };
-          }
-          return useRule;
-        });
-        delete rule.use;
-      }
-    });
-    return config;
+        },
+        ...(typeof origExternals[0] === 'function' ? [] : origExternals),
+      ]
+      config.module.rules.unshift({
+        test: antStyles,
+        use: ["style-loader", {loader: 'css-loader', options: {sourceMap: 1}}, "postcss-loader", "less-loader"],
+      })
+    }
+    return config
   }, */
-});
+})

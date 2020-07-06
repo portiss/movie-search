@@ -1,11 +1,12 @@
 
 import '../styles/app.scss'
-import CompareTable from '../components/CompareTable'
+//import 'antd/dist/antd.css'
+import SearchOMDB from '../components/SearchOMDB'
 
-const shop = () => (
+const movie = () => (
   <div className="container">
-    <CompareTable></CompareTable>
+    <SearchOMDB></SearchOMDB>
   </div>
 )
 
-export default shop
+export default movie
