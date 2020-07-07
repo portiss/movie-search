@@ -1,10 +1,9 @@
 const axios = require('axios')
-const URL = 'http://www.omdbapi.com/?apikey=157f34ed&'
+const omdURL = 'http://www.omdbapi.com/?apikey=157f34ed&'
 
 export const getData = async (searchParams = '') => {
     try {
-        const response = await axios.get(`${URL}${searchParams}`)
-        return response
+        return await axios.get(`${omdURL}${searchParams}`)
     }
     catch (error) {
         console.log(error)

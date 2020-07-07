@@ -1,6 +1,7 @@
 .container {
-    border-bottom: 3px solid #187baf;
     display: flex;
+    border-bottom: 3px solid #12577cda;
+
     h1,
     h3 {
         color: #18638b;
@@ -24,11 +25,13 @@
         place-content: center;
         margin: 10px;
     }
+
     select {
         height: 36px;
         width: 31vw;
         display: block;
     }
+
     .error-msg {
         animation: glow-err 3s ease-in-out infinite alternate;
         color: rgb(99, 7, 7);
@@ -55,17 +58,25 @@
 
     .list-item {
         display: inline-table;
-        max-height: 417px;
+        height: 447px;
         width: 330px;
         text-align: left;
         padding: 15px;
-        border: none;
+        box-shadow: 9px 6px 9px rgba(93, 93, 93, 0.47);
         border-radius: 20px;
         margin: 10px;
         background: #faee4a6b;
+        cursor: pointer;
         .title {
             margin: 14px;
         }
+    }
+
+    .list-item:hover,
+    .list-item:focus {
+        background: rgba(255, 253, 158, 0.76);
+        box-shadow: 5px 4px rgba(51, 3, 49, 0.562);
+        transform: translate(-1px);
     }
 }
 

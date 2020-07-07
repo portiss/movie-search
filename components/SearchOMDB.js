@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Spinner from 'react-spinner-material'
 import { loadMovies, toggleDisplayMoviesWithPoster } from '../reducers/movies'
 import MovieDetails from './MovieDetails'
 import { filterInput } from '../app/utils'
@@ -8,25 +9,24 @@ class SearchOMDB extends React.PureComponent {
 
     constructor(props) {
         super(props)
-
         this.state = {
             title: '',
             year: '',
             type: '',
             loading: false,
-            totalResults: 0,
         }
     }
 
     async componentDidMount() {
+        this.setState({ loading: true })
         await this.props.loadMovies()
+        this.setState({ loading: false })
     }
 
     handleSeach = (by, query) => {
         if (query) {
             this.setState({ [by]: query, loading: true, message: '' }, () => {
                 this.loadMoviesByQuery()
-
             })
         }
     }
@@ -37,21 +37,21 @@ class SearchOMDB extends React.PureComponent {
         this.props.loadMovies(queryVals.join('&'))
     }
 
-    onChecked = (event, onlyWithImg) => {
-
+    onChecked = (e, onlyWithImg) => {
         // return this.props.movies.filter((m) => onlyWithImg ? (m.Poster !== "N/A") : m)
-        if (onlyWithImg) this.props.toggleDisplayMoviesWithPoster(onlyWithImg)
-        else {
+        if (onlyWithImg)
+            this.props.toggleDisplayMoviesWithPoster(onlyWithImg)
+        else
             this.loadMoviesByQuery()
-        }
     }
 
     render() {
         const { movies, errorMsg } = this.props
+        const { loading } = this.state
         let filteredMovies = movies
         const currentYear = new Date().getFullYear()
         return (
-            filteredMovies && (
+            filteredMovies ? (
                 <div>
                     <h1>Movie Database Search</h1>
                     <input
@@ -86,15 +86,17 @@ class SearchOMDB extends React.PureComponent {
                                 onChange={(e) => this.onChecked(e, e.target.checked)
                                 }
                             />
-                        Show only with picture
+                        Show only results with picture
                     </label>}
                     {
                         errorMsg ? <p className="error-msg">{errorMsg} (try again)</p> :
                             <h3>{`Total result found: ${filteredMovies.length}`}</h3>
                     }
                     {filteredMovies.map((movie) => <MovieDetails className="list" key={movie.imdbID} data={movie} />)}
-                </div>)
+                </div>
+                ): <Spinner />
         )
+
     }
 }
 

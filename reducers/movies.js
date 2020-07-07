@@ -8,7 +8,7 @@ const initialState = {
 }
 
 /* When toggle onlyWithImg checkbox */
-export const toggleDisplayMoviesWithPoster = (onlyWithImg, query) => async (dispatch, getState) => {
+export const toggleDisplayMoviesWithPoster = (onlyWithImg) => async (dispatch, getState) => {
     if (!onlyWithImg) {
         loadMovies()
     }
@@ -32,8 +32,8 @@ export default function productsReducer(state = initialState, action) {
         case 'LOAD_MOVIES':
             if (!action.result.data.Response || action.result.data.Response === "False")
                 return Object.assign({}, state, { errorMsg: action.result.data.Error, collection: [] })
-            const sortedByPic = action.result.data.Search.sort((a, b) => a.Year - b.Year)
-            return Object.assign({}, state, { collection: sortedByPic, errorMsg: '' })
+            const sortedByYear = action.result.data.Search.sort((a, b) => a.Year - b.Year)
+            return Object.assign({}, state, { collection: sortedByYear, errorMsg: '' })
     }
     return state
 }
