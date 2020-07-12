@@ -14,8 +14,7 @@ export const toggleDisplayMoviesWithPoster = (onlyWithImg) => async (dispatch, g
     }
     else {
         const state = getState().movies
-        const collection = Array.from(state.collection)
-        const result = collection.filter(element => onlyWithImg ? (element.Poster !== "N/A") : element)
+        const result = state.filter(element => (element.Poster !== "N/A"))
         dispatch({
             type: 'UPDATE_MOVIES',
             result,

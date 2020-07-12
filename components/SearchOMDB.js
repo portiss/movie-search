@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import _ from "lodash"
+
 import Spinner from 'react-spinner-material'
 import { loadMovies, toggleDisplayMoviesWithPoster } from '../reducers/movies'
 import MovieDetails from './MovieDetails'
@@ -17,11 +19,24 @@ class SearchOMDB extends React.PureComponent {
         }
     }
 
-    async componentDidMount() {
-        this.setState({ loading: true })
-        await this.props.loadMovies()
-        this.setState({ loading: false })
+    onChange = (event, by, query) => {
+        // signal to React not to nullify the event object
+        event.persist();
+        if (!this.debouncedFn) {
+          this.debouncedFn =  _.debounce(() => {
+             this.handleSeach(by, query);
+          },500);
+        }
+        this.debouncedFn();
     }
+    /*
+    TODO: search inplace. memo.
+
+        async componentDidMount() {
+            this.setState({ loading: true })
+            await this.props.loadMovies()
+            this.setState({ loading: false })}
+    */
 
     handleSeach = (by, query) => {
         if (query) {
@@ -61,9 +76,9 @@ class SearchOMDB extends React.PureComponent {
                         id="search-by-title"
                         placeholder=" Text / Title... "
                         onKeyDown={filterInput('name')}
-                        onChange={() => this.handleSeach('title', `s=${event.target.value}`)} />
+                        onChange={(e) => this.onChange(e, 'title', `s=${event.target.value}`)} />
                     <select className="search-control"
-                        onChange={() => this.handleSeach('type', `type=${event.target.value}`)}>
+                        onChange={(e) => this.onChange(e, 'type', `type=${event.target.value}`)}>
                         <option value="">All Types</option>
                         <option value="movie">Movie</option>
                         <option value="series">Series</option>
@@ -76,9 +91,9 @@ class SearchOMDB extends React.PureComponent {
                         name="year"
                         id="search-by-year"
                         placeholder=" Year... "
-                        onChange={() => {
+                        onChange={(e) => {
                             if (event.target.value.length === 4)
-                                this.handleSeach('year', `y=${event.target.value}`)
+                                this.onChange(e, 'year', `y=${event.target.value}`)
                         }} />
                     {
                         !errorMsg && <label className="search-control">
@@ -94,9 +109,8 @@ class SearchOMDB extends React.PureComponent {
                     }
                     {filteredMovies.map((movie) => <MovieDetails className="list" key={movie.imdbID} data={movie} />)}
                 </div>
-                ): <Spinner />
+            ) : <Spinner />
         )
-
     }
 }
 

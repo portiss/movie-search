@@ -14,8 +14,8 @@ class MovieDetails extends React.Component {
                 {detailRow('Type', data.Type)}
                 {detailRow('Year', data.Year)}
                 {image ?
-                    <img src={data.Poster} alt="/styles/assets/no_thumb.jpg" width="330" height="330" />
-                    : <img src="../styles/assets/no_thumb.jpg" alt=" No Image " />}
+                    <img src={data.Poster} alt="/no_thumb.jpg" />
+                    : <img src="/no_thumb.jpg" alt=" No Image " />}
             </div>
         )
     }
