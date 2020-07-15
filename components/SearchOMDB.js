@@ -23,9 +23,9 @@ class SearchOMDB extends React.PureComponent {
         // signal to React not to nullify the event object
         event.persist();
         if (!this.debouncedFn) {
-          this.debouncedFn =  _.debounce(() => {
-             this.handleSeach(by, query);
-          },500);
+            this.debouncedFn = _.debounce(() => {
+                this.handleSeach(by, query);
+            }, 500);
         }
         this.debouncedFn();
     }
