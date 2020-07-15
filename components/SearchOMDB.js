@@ -15,20 +15,76 @@ class SearchOMDB extends React.PureComponent {
             title: '',
             year: '',
             type: '',
-            loading: false,
+            lastQuery: '',
+            loading: false,//TODO
+        }
+    }
+    debounce = (callback, wait = 250) => {
+        let timer = 0
+        return (...args) => {
+            console.log('t ', timer)
+            if (timer) clearTimeout(timer)
+            timer = setTimeout(() => callback(...args), wait)
         }
     }
 
-    onChange = (event, by, query) => {
-        // signal to React not to nullify the event object
-        event.persist();
-        if (!this.debouncedFn) {
-          this.debouncedFn =  _.debounce(() => {
-             this.handleSeach(by, query);
-          },500);
-        }
-        this.debouncedFn();
+    /*  debounce = (fn, ms) => {
+         console.log('debounce : ', fn, ms)
+         let tmId = 0
+         // RETURN CLOSURE INSTANCE THAT READ same tmId to all
+         return () => {
+             console.log('return () => { : ', tmId, fn, ms)
+
+             if (tmId) clearTimeout(tmId)
+             tmId = setTimeout(fn.call(), ms)
+         }
+     } */
+
+    onTitleChange = (event, query) => {
+        event.persist()
+        //if (!this.debouncedTitleFn) {
+       // this.debouncedTitleFn =
+       const func =this.debounce(() => {
+            this.handleSeach('year', query)
+        }, 1000)
+        // }
+       // this.debouncedTitleFn()
+
+        //  const func = this.debounce(() => this.handleSeach('title', query), 1000)
+           func()
+
+        //  this.debounce(()=>this.handleSeach('title', query), 5000)()
     }
+    // signal to React not to nullify the event object
+    /*
+       if (!this.debouncedTitleFn) {
+           this.debouncedTitleFn =
+
+
+       } */
+    //this.debouncedTitleFn()
+
+    onTypeChange = (event, query) => {
+        event.persist()
+        this.debouncedTypeFn = this.debounce(() => {
+            this.handleSeach('type', query)
+        }, 500)
+        this.debouncedTypeFn()
+    }
+
+    onYearChange = (event, query) => {
+        const valueLength = event.target.value.length
+        event.persist()
+        if (valueLength < 4) query = -1
+        console.log('yd : ', this.debouncedYearFn)
+        if (!this.debouncedYearFn) {
+            this.debouncedYearFn = this.debounce(() => {
+                this.handleSeach('year', query)
+            }, 1000)
+        }
+        this.debouncedYearFn()
+    }
+
     /*
     TODO: search inplace. memo.
 
@@ -47,9 +103,11 @@ class SearchOMDB extends React.PureComponent {
     }
 
     loadMoviesByQuery() {
-        const { title, year, type } = this.state
-        const queryVals = [title, year, type].filter(v => v)
-        this.props.loadMovies(queryVals.join('&'))
+        const { title, year, type, lastQuery } = this.state
+        const queryVals = [title, year, type].filter(v => v && v !== -1).join('&')
+        // if (lastQuery == !queryVals)
+        this.props.loadMovies(queryVals)
+        //   this.setState({ lastQuery: queryVals })
     }
 
     onChecked = (e, onlyWithImg) => {
@@ -76,9 +134,9 @@ class SearchOMDB extends React.PureComponent {
                         id="search-by-title"
                         placeholder=" Text / Title... "
                         onKeyDown={filterInput('name')}
-                        onChange={(e) => this.onChange(e, 'title', `s=${event.target.value}`)} />
+                        onChange={(e) => this.onTitleChange(e, `s=${event.target.value}`)} />
                     <select className="search-control"
-                        onChange={(e) => this.onChange(e, 'type', `type=${event.target.value}`)}>
+                        onChange={(e) => this.onTypeChange(e, `type=${event.target.value}`)}>
                         <option value="">All Types</option>
                         <option value="movie">Movie</option>
                         <option value="series">Series</option>
@@ -91,15 +149,11 @@ class SearchOMDB extends React.PureComponent {
                         name="year"
                         id="search-by-year"
                         placeholder=" Year... "
-                        onChange={(e) => {
-                            if (event.target.value.length === 4)
-                                this.onChange(e, 'year', `y=${event.target.value}`)
-                        }} />
+                        onChange={(e) => this.onYearChange(e, `y=${event.target.value}`)} />
                     {
                         !errorMsg && <label className="search-control">
                             <input type="checkbox"
-                                onChange={(e) => this.onChecked(e, e.target.checked)
-                                }
+                                onChange={(e) => this.onChecked(e, e.target.checked)}
                             />
                         Show only results with picture
                     </label>}

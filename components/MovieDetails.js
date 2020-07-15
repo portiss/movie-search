@@ -1,7 +1,7 @@
 import React from 'react'
 /* Left side checkbox component */
 //const no_thumb = require('../styles/assets/no_thumb.jpg');
-export const detailRow = (title, value) => <div className="title"><strong>{title}: </strong>{value}</div>
+export const detailRow = (title, value) => <div className="title" title={value}><strong>{title}: </strong>{value}</div>
 
 
 class MovieDetails extends React.Component {

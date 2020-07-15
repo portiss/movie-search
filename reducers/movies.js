@@ -14,6 +14,7 @@ export const toggleDisplayMoviesWithPoster = (onlyWithImg) => async (dispatch, g
     }
     else {
         const state = getState().movies
+        console.log('movies state', state )
         const result = state.filter(element => (element.Poster !== "N/A"))
         dispatch({
             type: 'UPDATE_MOVIES',
@@ -39,6 +40,7 @@ export default function productsReducer(state = initialState, action) {
 
 /* Action - load */
 export const loadMovies = (query) => async dispatch => {
+    console.log('query = ', query)
     const result = await getData(query)
     dispatch({
         type: 'LOAD_MOVIES',

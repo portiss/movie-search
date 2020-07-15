@@ -68,6 +68,10 @@
         cursor: pointer;
         .title {
             margin: 14px;
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 
@@ -82,7 +86,7 @@
 body {
     background-color: rgb(253, 253, 221);
     padding: 0;
-    margin: 3vh 10vw;
+    margin: 3vh 6vw;
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
