@@ -28,30 +28,30 @@ class SearchOMDB extends React.PureComponent {
         }
     }
 
-    /*  debounce = (fn, ms) => {
-         console.log('debounce : ', fn, ms)
-         let tmId = 0
-         // RETURN CLOSURE INSTANCE THAT READ same tmId to all
-         return () => {
-             console.log('return () => { : ', tmId, fn, ms)
+    debounce = (fn, ms) => {
+        console.log('debounce : ', fn, ms)
+        let tmId = 0
+        // RETURN CLOSURE INSTANCE THAT READ same tmId to all
+        return () => {
+            console.log('return () => { : ', tmId, fn, ms)
 
-             if (tmId) clearTimeout(tmId)
-             tmId = setTimeout(fn.call(), ms)
-         }
-     } */
+            if (tmId) clearTimeout(tmId)
+            tmId = setTimeout(fn.call(), ms)
+        }
+    }
 
     onTitleChange = (event, query) => {
         event.persist()
         //if (!this.debouncedTitleFn) {
-       // this.debouncedTitleFn =
-       const func =this.debounce(() => {
+        // this.debouncedTitleFn =
+        const func = this.debounce(() => {
             this.handleSeach('year', query)
         }, 1000)
         // }
-       // this.debouncedTitleFn()
+        // this.debouncedTitleFn()
 
         //  const func = this.debounce(() => this.handleSeach('title', query), 1000)
-           func()
+        func()
 
         //  this.debounce(()=>this.handleSeach('title', query), 5000)()
     }
